@@ -10,6 +10,18 @@ function SamyTotemBarTimersUtils:FirstOrDefault(list, predicate)
     return nil
 end
 
+function SamyTotemBarTimersUtils:Test()
+    -- for i = 1, MAX_RAID_MEMBERS do
+    --     print(UnitName('raid' .. i), i);
+    --     -- local unit = format("%s%i", 'raid', i)
+    -- end
+
+    for i = 0, 4 do
+        print(UnitName('party' .. i), i);
+        -- local unit = format("%s%i", 'raid', i)
+    end
+end
+
 function SamyTotemBarTimersUtils:Round(number, decimals)
     return (("%%.%df"):format(decimals)):format(number)
 end

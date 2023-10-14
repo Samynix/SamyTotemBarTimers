@@ -4,7 +4,6 @@
 	<Script file="SamyTotemBarTimersConfig.lua"/>
     <script file="SamyTotemBarTimersDbVersion.lua"/>
     <script file="SamyTotemBarTimersDb.lua"/>
-    <script file="SamyTotemBarTimersWFCom.lua"/>
     <Script file="SamyTotemBarTimersButtonBase.lua"/>  
     <Script file="SamyTotemBarTimersActiveTotemButton.lua"/>
     <Script file="SamyTotemBarTimersBuffTotemButton.lua"/>

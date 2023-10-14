@@ -10,10 +10,8 @@ local function IsPlayerShaman()
     return englishClass == "SHAMAN"
 end
 
-local function CreateActiveTotemButton(parentFrame, totemInfoList, totemListId, castTotemButton,
-                                       isOnlyShowTimerForSelectedTotem, wfBuffList)
-    local activeTotemButton = SamyTotemBarTimersActiveTotemButton:Create(parentFrame, totemInfoList, totemListId,
-        castTotemButton, isOnlyShowTimerForSelectedTotem, wfBuffList)
+local function CreateActiveTotemButton(parentFrame, totemInfoList, totemListId)
+    local activeTotemButton = SamyTotemBarTimersActiveTotemButton:Create(parentFrame, totemInfoList, totemListId)
     return activeTotemButton
 end
 
@@ -38,14 +36,13 @@ local function CreateActiveTotemButtons()
             activeTotemButton = SamyTotemBarTimersBuffTotemButton:Create(parent,
                 SamyTotemBarTimersUtils:FirstOrDefault(v["totems"]), k)
         else
-            activeTotemButton = CreateActiveTotemButton(parent, v["totems"], k, nil,
-                false, SamyTotemBarTimersWFCom.WfStatusList)
+            activeTotemButton = CreateActiveTotemButton(parent, v["totems"], k)
         end
 
 
         activeTotemButton:SetEnabled(v["isEnabled"]);
         activeTotemButton:SetPosition(0, SamyTotemBarTimersConfig.BUTTON_SIZE + SamyTotemBarTimersConfig
-        .VERTICAL_SPACING);
+            .VERTICAL_SPACING);
         activeTotemButton:SetIsShowPulse(v.isShowPulseTimers)
         activeTotemList[k] = activeTotemButton
     end
@@ -60,7 +57,6 @@ function _samyTotemBarTimers:OnInitialize()
     end
 
     SamyTotemBarTimersDatabase:OnInitialize(self)
-    SamyTotemBarTimersWFCom:UpdateGroupRooster()
 
     self.frame = CreateFrame("Frame", "SamyTotemBarTimersFrame", UIParent)
     self.frame:SetScript("OnUpdate", self.OnUpdate)
@@ -68,8 +64,6 @@ function _samyTotemBarTimers:OnInitialize()
     local totemLists = CreateActiveTotemButtons()
     _activeTotemList = totemLists
 
-    -- SamyTotemBarTimersDatabase:RestoreScaleAndPosition()
-    SamyTotemBarTimersWFCom:UpdateGroupRooster()
     _currentZone = GetZoneText()
     SamyTotemBarTimersUtils:Print("Loaded")
 end
@@ -88,8 +82,6 @@ function _samyTotemBarTimers:OnUpdate(elapsed)
         return
     end
 
-
-    SamyTotemBarTimersWFCom:OnUpdate()
     _timeSinceLastUpdate = 0
     for k, v in pairs(_activeTotemList) do
         if (v.isEnabled) then
@@ -169,12 +161,4 @@ end)
 
 _samyTotemBarTimers:RegisterEvent("PLAYER_DEAD", function(event)
     ResetAllActive()
-end)
-
-_samyTotemBarTimers:RegisterEvent("GROUP_ROSTER_UPDATE", function(event)
-    SamyTotemBarTimersWFCom:UpdateGroupRooster()
-end)
-
-_samyTotemBarTimers:RegisterEvent("CHAT_MSG_ADDON", function(...)
-    SamyTotemBarTimersWFCom:ChatMessageReceived(...)
 end)

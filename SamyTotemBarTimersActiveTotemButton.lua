@@ -36,12 +36,10 @@ local function CreatePulseStatusBar(parentFrame)
     return statusbar
 end
 
-function SamyTotemBarTimersActiveTotemButton:Create(parentFrame, availableTotems, totemListId, castTotemButton,
-                                                    isOnlyShowSelectedTotem, wfBuffList)
+function SamyTotemBarTimersActiveTotemButton:Create(parentFrame, availableTotems, totemListId)
     local templates = "ActionButtonTemplate"
     local instance = SamyTotemBarTimersButtonBase:Create(parentFrame,
         "SamyTotemBarTimers" .. totemListId .. "ActiveTotemButton", templates)
-    instance.wfBuffList = wfBuffList
     instance.pulseStatusBar = CreatePulseStatusBar(instance.frame)
     instance.frame:SetEnabled(false)
     instance.frame.NormalTexture:Hide()
@@ -148,18 +146,24 @@ function SamyTotemBarTimersActiveTotemButton:Create(parentFrame, availableTotems
         if (instance.spellName) then
             local affected = 0
             local totalPossible = nil
-            local units = { "player", "party1", "party2", "party3", "party4" }
-            if (instance.spellName == "Windfury Totem") then
-                totalPossible = 0
-                for k, v in pairs(instance.wfBuffList) do
-                    if v and v.hasWfCom and v.isRelevant then
-                        totalPossible = totalPossible + 1
+            local units = {}
+            local myName = UnitName('player');
+            if (UnitInRaid('player')) then
+                for i = 1, MAX_RAID_MEMBERS do
+                    local unitId = 'raid' .. i;
+                    local unitName = UnitName(unitId);
+                    if (unitName and unitName ~= myName) then
+                        table.insert(units, unitId);
                     end
                 end
+
+                table.insert(units, 'player');
+            else
+                units = { "player", "party1", "party2", "party3", "party4" }
             end
 
             for k, v in pairs(units) do
-                local buffs = SamyTotemBarTimersUtils:GetUnitBuffs(v, instance.wfBuffList)
+                local buffs = SamyTotemBarTimersUtils:GetUnitBuffs(v, nil)
                 local foundBuff = false
                 for k2, v2 in pairs(buffs) do
                     if (v2.isRelevant and string.match(instance.spellName, v2.name) and v2.expirationTime > GetTime()) then

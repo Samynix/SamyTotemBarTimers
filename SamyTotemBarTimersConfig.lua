@@ -19,18 +19,6 @@ SamyTotemBarTimersConfig.defaultGeneralSettings = {
     ["isWarnIfMissingBuff"] = true,
 }
 
-SamyTotemBarTimersConfig.defaultWfComClass = {
-    ["WARRIOR"] = true,
-    ["ROGUE"] = true,
-    ["PALADIN"] = true,
-    ["HUNTER"] = false,
-    ["DRUID"] = false,
-    ["MAGE"] = false,
-    ["PRIEST"] = false,
-    ["WARLOCK"] = false,
-    ["SHAMAN"] = false
-}
-
 SamyTotemBarTimersConfig.defaultTotemLists = {
     [1] = {
         ["totems"] = {
@@ -201,6 +189,7 @@ SamyTotemBarTimersConfig.defaultTotemLists = {
                 ["ElementID"] = 4,
                 ["PulseTime"] = 5,
                 ["isEnabled"] = true,
+                ["hasBuff"] = true,
             },
 
             ["Grounding Totem"] = {
@@ -208,7 +197,7 @@ SamyTotemBarTimersConfig.defaultTotemLists = {
                 ["ElementID"] = 4,
                 ["PulseTime"] = 10,
                 ["isEnabled"] = true,
-                --["hasBuff"] = true,
+                ["hasBuff"] = false,
             },
 
             ["Sentry Totem"] = {

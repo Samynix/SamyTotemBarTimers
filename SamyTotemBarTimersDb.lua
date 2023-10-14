@@ -1,14 +1,7 @@
 SamyTotemBarTimersDatabase = {}
 
-if not SaveBindings then
-    function SaveBindings(p)
-        AttemptToSaveBindings(p)
-    end
-end
-
 local _db = nil
 local _SamyTotemBarTimers = nil
-local _isSamyTotemBarTimersFrameLocked = true
 
 local function EnsureSavedVariablesExists(isReset)
     local function SetDefault(ref, default, isOverride)
@@ -22,8 +15,6 @@ local function EnsureSavedVariablesExists(isReset)
     SamyTotemBarTimersDB = SetDefault(SamyTotemBarTimersDB, {}, isReset);
     SamyTotemBarTimersDB.isWarnIfMissingBuff = SetDefault(SamyTotemBarTimersDB.isWarnIfMissingBuff,
         SamyTotemBarTimersConfig.defaultGeneralSettings.isWarnIfMissingBuff, isReset);
-    SamyTotemBarTimersDB.wfComClass = SetDefault(SamyTotemBarTimersDB.wfComClass, SamyTotemBarTimersConfig
-        .defaultWfComClass);
     SamyTotemBarTimersDB.totemLists = SetDefault(SamyTotemBarTimersDB.totemLists, SamyTotemBarTimersConfig
         .defaultTotemLists,
         isReset);
@@ -88,8 +79,8 @@ function SamyTotemBarTimersDatabase:OnInitialize(SamyTotemBarTimers)
                 args = {
                     isWarnIfMissingBuff = {
                         order = 1,
-                        name = "Overlay if missing buff",
-                        desc = "Show warning overlay if player is missing buff from active totem",
+                        name = "Show red overlay if you are missing totem buff",
+                        desc = "Show warning overlay if you are missing buff from active totem",
                         type = "toggle",
                         set = function(info, newValue) SamyTotemBarTimersDatabase:SetWarnIfMissingBuffEnabled(newValue) end,
                         get = function() return SamyTotemBarTimersDatabase:GetWarnIfMissingBuffEnabled() end,
@@ -103,35 +94,8 @@ function SamyTotemBarTimersDatabase:OnInitialize(SamyTotemBarTimers)
                 name = 'Totems',
                 args = {}
             },
-
-            windfury = {
-                order = 4,
-                type = 'group',
-                name = 'Windfury',
-                desc = "What classes should be counted for wf buffs. WF buffs needes LibWFCom",
-                args = {
-                    info = {
-                        order = 0,
-                        type = "description",
-                        name = "Windfury affected count requires people to have LibWFCom.\n" ..
-                            "WF buff shows as x / y where y is count of people in group with LibWFCom.\n" ..
-                            "\n" ..
-                            "What classes do you want to count in x / y?"
-                    }
-                }
-            }
         },
     }
-
-    for k, v in pairs(_db.wfComClass) do
-        options.args.windfury.args[k] =
-        {
-            type = "toggle",
-            name = k,
-            set = function(info, newValue) SamyTotemBarTimersDatabase:SetWFComLibClass(k, newValue) end,
-            get = function() return SamyTotemBarTimersDatabase:GetWFComLibClass(k) end,
-        }
-    end
 
     for k, v in pairs(_db.totemLists) do
         local key = tostring(k)
@@ -225,19 +189,6 @@ end
 
 function SamyTotemBarTimersDatabase:GetTotemListOrder(totemListId)
     return _db.totemLists[totemListId].order
-end
-
-function SamyTotemBarTimersDatabase:SetWFComLibClass(class, newValue)
-    _db.wfComClass[class] = newValue
-    SamyTotemBarTimersWFCom:UpdateGroupRooster()
-end
-
-function SamyTotemBarTimersDatabase:GetWFComLibClass(class)
-    if not _db.wfComClass then
-        _db.wfComClass = {}
-    end
-
-    return _db.wfComClass[class]
 end
 
 function SamyTotemBarTimersDatabase:ResetConfig()
