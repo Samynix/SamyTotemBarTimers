@@ -187,7 +187,7 @@ SamyTotemBarTimersConfig.defaultTotemLists = {
             ["Windfury Totem"] = {
                 ["RankOneSpellID"] = 8512,
                 ["ElementID"] = 4,
-                ["PulseTime"] = 5,
+                -- ["PulseTime"] = 5,
                 ["isEnabled"] = true,
                 ["hasBuff"] = true,
             },
