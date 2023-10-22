@@ -27,6 +27,11 @@ SamyTotemBarTimersConfig.defaultTotemLists = {
                 ["ElementID"] = 2,
                 ["isEnabled"] = true,
                 ["hasBuff"] = true,
+                ["buffRankOneIDs"] = {
+                    8071
+                },
+
+
             },
 
             ["Earthbind Totem"] = {
@@ -46,6 +51,10 @@ SamyTotemBarTimersConfig.defaultTotemLists = {
                 ["ElementID"] = 2,
                 ["isEnabled"] = true,
                 ["hasBuff"] = true,
+                ["buffRankOneIDs"] = {
+                    8075, --Strength of Earth Totem
+                    57330 --Horn of Winter
+                },
             },
 
             ["Tremor Totem"] = {
@@ -129,6 +138,11 @@ SamyTotemBarTimersConfig.defaultTotemLists = {
                 ["ElementID"] = 3,
                 ["isEnabled"] = true,
                 ["hasBuff"] = true,
+                ["buffRankOneIDs"] = {
+                    5675,  --Mana Spring Totem
+                    19742, --Blessing of Wisdom
+                    25894  --Greater Blessing of Wisdom
+                },
             },
 
             ["Fire Resistance Totem"] = {
@@ -190,6 +204,10 @@ SamyTotemBarTimersConfig.defaultTotemLists = {
                 -- ["PulseTime"] = 5,
                 ["isEnabled"] = true,
                 ["hasBuff"] = true,
+                ["buffRankOneIDs"] = {
+                    8512,  --Windfury Totem
+                    55610, --Improved Icy Talons
+                },
             },
 
             ["Grounding Totem"] = {
